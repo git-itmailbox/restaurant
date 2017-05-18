@@ -18,6 +18,7 @@ Route::get('/', function () {
 
 Route::get('/home', 'MainController@home');
 Route::get('/getaddress', 'MainController@getaddress');
+Route::get('/getrates', 'RatesController@getRates');
 
 Route::get('/getstatusof/{id}', function ($id) {
     return Order::find($id)->paymentStatus->name;

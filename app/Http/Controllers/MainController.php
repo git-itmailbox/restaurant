@@ -11,7 +11,6 @@ class MainController extends Controller
     //
     public function home()
     {
-//        echo " home";
         $fapi = new FstxApi();
         $fapi->set_privkey(Config::get('fapi.my_private_key'));
         $fapi->set_uid(Config::get('fapi.my_unique_id'));

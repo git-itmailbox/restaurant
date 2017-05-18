@@ -8,64 +8,92 @@
     <title>Restaurant Name</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    {{--<link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">--}}
 
     <!-- Styles -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Styles -->
-    <style>
-        html, body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 100;
-            height: 100vh;
-            margin: 0;
-        }
+    {{--<style>--}}
+        {{--html, body {--}}
+            {{--background-color: #fff;--}}
+            {{--color: #636b6f;--}}
+            {{--font-family: 'Raleway', sans-serif;--}}
+            {{--font-weight: 100;--}}
+            {{--height: 100vh;--}}
+            {{--margin: 0;--}}
+        {{--}--}}
 
-        .full-height {
-            height: 100vh;
-        }
+        {{--.full-height {--}}
+            {{--height: 100vh;--}}
+        {{--}--}}
 
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
+        {{--.flex-center {--}}
+            {{--align-items: center;--}}
+            {{--display: flex;--}}
+            {{--justify-content: center;--}}
+        {{--}--}}
 
-        .position-ref {
-            position: relative;
-        }
+        {{--.position-ref {--}}
+            {{--position: relative;--}}
+        {{--}--}}
 
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
+        {{--.top-right {--}}
+            {{--position: absolute;--}}
+            {{--right: 10px;--}}
+            {{--top: 18px;--}}
+        {{--}--}}
 
-        .content {
-            text-align: center;
-        }
+        {{--.content {--}}
+            {{--text-align: center;--}}
+        {{--}--}}
 
-        .title {
-            font-size: 84px;
-        }
+        {{--.title {--}}
+            {{--font-size: 84px;--}}
+        {{--}--}}
 
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
+        {{--.links > a {--}}
+            {{--color: #636b6f;--}}
+            {{--padding: 0 25px;--}}
+            {{--font-size: 12px;--}}
+            {{--font-weight: 600;--}}
+            {{--letter-spacing: .1rem;--}}
+            {{--text-decoration: none;--}}
+            {{--text-transform: uppercase;--}}
+        {{--}--}}
 
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
+        {{--.m-b-md {--}}
+            {{--margin-bottom: 30px;--}}
+        {{--}--}}
+    {{--</style>--}}
 </head>
 <body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/getrates">Курс <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Link</a></li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Link</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 <div class="flex-center position-ref full-height">
     @if (Route::has('login'))
         <div class="top-right links">
@@ -87,6 +115,10 @@
 </div>
 
 @yield('footer')
-
+<script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>

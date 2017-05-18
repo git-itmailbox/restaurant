@@ -17,7 +17,8 @@ class CreateOrders extends Migration
             $table->increments('id');
             $table->string('order_number');
             $table->unsignedSmallInteger('payment_status_id');
-            $table->unsignedBigInteger('summ');
+            $table->unsignedBigInteger('summ_btc');
+            $table->unsignedBigInteger('summ_uah');
             $table->string('address');
             $table->text('description');
             $table->timestamps();
