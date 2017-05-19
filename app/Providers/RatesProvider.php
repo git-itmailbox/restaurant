@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\FstxApi;
+use App\Helpers\RateController;
+use Illuminate\Support\ServiceProvider;
 
-class FstxApiServiceProvider extends ServiceProvider
+class RatesProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -24,9 +25,9 @@ class FstxApiServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
-        $this->app->singleton('App\Providers\FstxApiServiceProvider', function (FstxApi $fstxApi) {
-                return new FstxApi();
+        $this->app->bind('App\Helpers\RatesContract', function(){
+
+            return new RateController(new FstxApi() );
         });
     }
 }
