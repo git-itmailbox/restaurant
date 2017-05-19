@@ -41,7 +41,11 @@ class FstxApi
         $this->curlopt_url = $curlopt_url;
         $this->curlopt_useragent = isset($curlopt_useragent) ? $curlopt_useragent :
             'Mozilla/4.0 (compatible; Fstx PHP client; ' . php_uname('s') . '; PHP/' . phpversion() . ')';
-//        $this->my_public_key = Config::get('fapi.my_public_key');
+        $this->my_public_key = Config::get('fapi.my_public_key');
+        $this->set_privkey(Config::get('fapi.my_private_key'));
+        $this->set_uid(Config::get('fapi.my_unique_id'));
+        $this->set_serverpubkey(Config::get('fapi.server_public_key'));
+
     }
     function set_uid($uid)
     {
