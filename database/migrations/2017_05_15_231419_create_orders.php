@@ -15,12 +15,13 @@ class CreateOrders extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('order_number');
-            $table->unsignedSmallInteger('payment_status_id');
+            $table->string('order_number')->nullable()->unique();
+            $table->unsignedSmallInteger('payment_status_id')->default('1');
             $table->unsignedBigInteger('summ_btc');
+            $table->unsignedBigInteger('paid_btc')->default('1');
             $table->unsignedBigInteger('summ_uah');
             $table->string('address');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
