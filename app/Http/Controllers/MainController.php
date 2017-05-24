@@ -29,6 +29,8 @@ class MainController extends Controller
         $order->description = $request->description;
         $order->order_number = $request->order_number;
         $order->address = $this->getAddress();
+        $order->rate = $btcUahRate;
+
 
         $order->save();
         if($order->order_number == null){

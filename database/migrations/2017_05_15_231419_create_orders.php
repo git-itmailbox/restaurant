@@ -23,6 +23,7 @@ class CreateOrders extends Migration
             $table->unsignedBigInteger('summ_uah');
             $table->string('address');
             $table->text('description')->nullable();
+            $table->float('rate');
             $table->timestamps();
         });
     }

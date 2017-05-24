@@ -38,8 +38,7 @@ class Order extends Model
     public function summ_btc_rest()
     {
         $factor = Config::get('fees.factor');
-        $rates = \App::make('App\Helpers\RatesContract');
-        $btc_rest = ceil($this->summ_uah_rest() / round($rates->getBtcUahRate()) * $factor)  / $factor ;
+        $btc_rest = ceil($this->summ_uah_rest() / $this->rate * $factor)  / $factor ;
 
         return $btc_rest;
     }
