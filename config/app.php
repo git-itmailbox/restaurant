@@ -173,13 +173,14 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FstxApiServiceProvider::class,
         App\Providers\RatesProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        Vinkla\Pusher\PusherServiceProvider::class,
 
     ],
 
@@ -234,6 +235,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+        'pusher' => Vinkla\Pusher\PusherServiceProvider::class,
+
 
     ],
 

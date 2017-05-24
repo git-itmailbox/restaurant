@@ -65,6 +65,21 @@
             {{--margin-bottom: 30px;--}}
         {{--}--}}
     {{--</style>--}}
+
+
+<!-- PUSHER TEST-->
+    <script src="//js.pusher.com/3.0/pusher.min.js"></script>
+    <script>
+        var pusher = new Pusher("{{env("PUSHER_KEY")}}",{ cluster: 'eu'})
+        var channel = pusher.subscribe('test-channel');
+        channel.bind('my-event', function(data) {
+            alert(data.text);
+        });
+
+        channel.bind('income', function(data) {
+            alert(data.text);
+        });
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -122,5 +137,6 @@
         integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 </body>
 </html>

@@ -24,7 +24,7 @@ class MainController extends Controller
         $summBtc = ceil($summBtc * Config::get('fees.factor'));
 
         $order = new Order();
-        $order->summ_uah = $request->summ_uah;
+        $order->summ_uah = $request->summ_uah * 100;
         $order->summ_btc = $summBtc;
         $order->description = $request->description;
         $order->order_number = $request->order_number;
@@ -35,8 +35,13 @@ class MainController extends Controller
             $order->order_number = "A".$order->id;
             $order->save();
         }
+        $query = $this->getBarCodeQuery($order);
 
-        return DNS2D::getBarcodeHTML($order->address, "QRCODE");
+//        return DNS2D::getBarcodeHTML($order->address, "QRCODE");
+
+        return redirect()->action(
+            'MainController@payInfo', ['id' => $order->id]
+        );
     }
 
     public function getAddress()
@@ -57,7 +62,9 @@ class MainController extends Controller
 
     public function orders()
     {
-
+        $orders = Order::all();
+//        return response()->json(['transaction'=> $orders], 201);
+        return view('orders.index', compact('orders'));
     }
 
     public function orderInfo($id)
@@ -75,15 +82,30 @@ class MainController extends Controller
     {
         $order = Order::find($id);
         $order->summ_btc = $order->summ_btc / Config::get('fees.factor');
-        $query = Config::get('payment.protocol').':'.$order->address.'?amount='.$order->summ_btc
-            .'&label='.Config::get('payment.label').'&message=Order#'.$order->order_number.'.'.$order->description;
-        $query  = rawurlencode($query);
+        $query = $this->getBarCodeQuery($order);
+
+
         return view('orders.payinfo',compact('order', 'query'));
 
+    }
+
+    private function getBarCodeQuery(Order $order)
+    {
+        $query = Config::get('payment.protocol').':'.$order->address.'?amount='.$order->summ_btc
+            .'&label='.Config::get('payment.label').'&message=Order#'.$order->order_number.'.'.$order->description;
+//       return rawurlencode($query);
+       return rawurlencode($query);
     }
 
     public function createOrder()
     {
         return view('orders.create');
+    }
+
+    public function ordersApi()
+    {
+        $orders = Order::all();
+        return response()->json(['transaction'=> $orders], 201);
+
     }
 }

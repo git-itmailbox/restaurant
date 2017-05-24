@@ -6,7 +6,7 @@
 
         <h2>Заказ № {{$order['order_number']}} </h2>
         <div class="row">
-            <div class="col-md-12">к оплате: <span class="label label-default">{{$order['summ_uah']}} грн </span></div>
+            <div class="col-md-12">к оплате: <span class="label label-default">{{$order['summ_uah']/100}} грн </span></div>
         </div>
         <div class="row">
             <div class="col-md-12 form-group">Для оплаты отправьте ровно:
