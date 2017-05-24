@@ -21,17 +21,16 @@ Route::post('/home', ['uses' => 'MainController@home', 'as'=> 'home']);
 Route::post('/saveorder', ['uses' => 'MainController@saveOrder', 'as'=> 'order.store']);
 Route::get('/payinfo/{id}',['uses' => 'MainController@payInfo',]);
 Route::get('/orderinfo/{id}',['uses' => 'MainController@orderInfo',]);
-Route::get('/orders',['uses' => 'MainController@orders',]);
-
-
-
+Route::get('/orders', ['uses' => 'MainController@orders',]);
 Route::get('/create', 'MainController@createOrder');
-Route::get('/getaddress', 'MainController@getaddress');
 Route::get('/getrates', 'RatesController@getRates');
 
 Route::get('/getstatusof/{id}', function ($id) {
     return Order::find($id)->paymentStatus->name;
 });
+
+
+
 
 //Route::resource('orders', "MainController");
 Route::get('/getorderby/{id}', function ($id) {

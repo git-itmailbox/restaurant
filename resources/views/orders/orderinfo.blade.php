@@ -54,7 +54,7 @@
                         Сумма (грн):
                     </div>
                     <div class="col-md-6">
-                        <span class="label label-primary">summ_uah</span>
+                        <span class="label label-primary">{{$order['summ_uah'] / 100}}</span>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                         Сумма (btc):
                     </div>
                     <div class="col-md-6">
-                        <span class="label label-primary">summ_btc</span>
+                        <span class="label label-primary">{{$order['summ_btc'] / Config::get('fees.factor')}}</span>
                     </div>
                 </div>
             </div>

@@ -35,9 +35,6 @@ class MainController extends Controller
             $order->order_number = "A".$order->id;
             $order->save();
         }
-        $query = $this->getBarCodeQuery($order);
-
-//        return DNS2D::getBarcodeHTML($order->address, "QRCODE");
 
         return redirect()->action(
             'MainController@payInfo', ['id' => $order->id]
@@ -59,6 +56,7 @@ class MainController extends Controller
         return $res['data']['address'];
 
     }
+
 
     public function orders()
     {
@@ -91,10 +89,13 @@ class MainController extends Controller
 
     private function getBarCodeQuery(Order $order)
     {
-        $query = Config::get('payment.protocol').':'.$order->address.'?amount='.$order->summ_btc
+
+        $btc_rest = $order->summ_uah_rest();
+
+        $query = Config::get('payment.protocol').':'.$order->address.'?amount='.$btc_rest
             .'&label='.Config::get('payment.label').'&message=Order#'.$order->order_number.'.'.$order->description;
 //       return rawurlencode($query);
-       return rawurlencode($query);
+       return ($query);
     }
 
     public function createOrder()

@@ -6,11 +6,11 @@
 
         <h2>Заказ № {{$order['order_number']}} </h2>
         <div class="row">
-            <div class="col-md-12">к оплате: <span class="label label-default">{{$order['summ_uah']/100}} грн </span></div>
+            <div class="col-md-12">к оплате: <span class="label label-default">{{$order->summ_uah_rest()}} грн </span></div>
         </div>
         <div class="row">
             <div class="col-md-12 form-group">Для оплаты отправьте ровно:
-                {{ Form::text('summ_btc', $order['summ_btc'], ['readonly'=>'', 'class'=>'' ])}}
+                {{ Form::text('summ_btc_rest', $order->summ_btc_rest(), ['readonly'=>'', 'class'=>'' ])}}
                 <span class="label label-default">btc </span>
             </div>
         </div>

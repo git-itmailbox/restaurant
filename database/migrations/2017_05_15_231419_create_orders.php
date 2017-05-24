@@ -19,6 +19,7 @@ class CreateOrders extends Migration
             $table->unsignedSmallInteger('payment_status_id')->default('1');
             $table->unsignedBigInteger('summ_btc');
             $table->unsignedBigInteger('paid_btc')->default('0');
+            $table->unsignedBigInteger('paid_uah')->default('0');
             $table->unsignedBigInteger('summ_uah');
             $table->string('address');
             $table->text('description')->nullable();

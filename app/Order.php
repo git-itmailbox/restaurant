@@ -2,8 +2,10 @@
 
 namespace App;
 
+use App\Helpers\RateController;
 use App\Helpers\RatesContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 class Order extends Model
 {
@@ -21,11 +23,27 @@ class Order extends Model
     {
         return $this->hasMany('App\Transaction');
     }
-    public function summ_uah_rest(RatesContract $rates)
+
+    public function summ_uah_rest()
     {
-        $btc_rest = $this->summ_btc - $this->paid_btc;
-        $uah_rest = ceil($btc_rest * $rates->getBtcUahRate() / Config::get('fees.factor') * 100)/100;
-        return $this->hasMany('App\Transaction');
+        return ceil($this->summ_uah - $this->paid_uah) / 100;
+
+
+//        $btc_rest = $this->summ_btc - $this->paid_btc;
+//        $uah_rest = ceil($btc_rest * $rates->getBtcUahRate() / Config::get('fees.factor') * 100)/100;
+//        return $this->hasMany('App\Transaction');
     }
+
+
+    public function summ_btc_rest()
+    {
+        $factor = Config::get('fees.factor');
+        $rates = \App::make('App\Helpers\RatesContract');
+        $btc_rest = ceil($this->summ_uah_rest() / round($rates->getBtcUahRate()) * $factor)  / $factor ;
+
+        return $btc_rest;
+    }
+
+
 }
 

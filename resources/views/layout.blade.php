@@ -69,17 +69,7 @@
 
 <!-- PUSHER TEST-->
     <script src="//js.pusher.com/3.0/pusher.min.js"></script>
-    <script>
-        var pusher = new Pusher("{{env("PUSHER_KEY")}}",{ cluster: 'eu'})
-        var channel = pusher.subscribe('test-channel');
-        channel.bind('my-event', function(data) {
-            alert(data.text);
-        });
 
-        channel.bind('income', function(data) {
-            alert(data.text);
-        });
-    </script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -92,15 +82,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="/">Brand</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class=""><a href="/getrates">Курс <span class="sr-only">(current)</span></a></li>
+                <li>{{link_to('/', $title = "Заказы")}}</li>
                 <li>{{link_to('/create', $title = "Создать заказ")}}</li>
-                <li>{{link_to('/create', $title = "Заказы")}}</li>
                 <li>{{link_to('/create', $title = "История")}}</li>
 
             </ul>

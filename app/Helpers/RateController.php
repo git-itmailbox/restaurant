@@ -40,7 +40,6 @@ class RateController implements RatesContract
 
     public function getBtcRate()
     {
-        // TODO: Implement getBtcRate() method.
         $res = $this->fstx->query_public('rate');
         if (isset($res['code']) && $res['code'] == 0)
         {
