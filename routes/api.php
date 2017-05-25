@@ -18,7 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/income', [
-    'uses' => 'TransactionController@income'
+    'uses' => 'TransactionController@income',
+    'middleware' =>['ipcheck'],
 ]);
 
 Route::post('/orders', [
