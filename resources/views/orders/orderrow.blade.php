@@ -18,10 +18,22 @@
     </a>
 </td>
 <td class="actions">
-    <a class="btn btn-warning" href="/payinfo/{{$order->id}}">
-        payinfo
-    </a>
-    <a class="btn btn-warning" href="/tohistory/{{$order->id}}">
-        Закрыть заказ
-    </a>
+    <div class="col-md-4 text-center">
+
+        @if ($order->payment_status_id == 1)
+            @include('orders.buttons.new')
+        @elseif ($order->payment_status_id == 2 || $order->payment_status_id == 4)
+            @include('orders.buttons.topay')
+        @elseif($order->payment_status_id == 3 || $order->payment_status_id == 5)
+            <span class="glyphicon glyphicon-ok"></span>
+        @endif
+    </div>
+    <div class="col-md-4  text-center">
+        <a class="btn btn-warning btn-sm" href="/tohistory/{{$order->id}}">
+            Закрыть заказ
+        </a>
+    </div>
+
+
+
 </td>
