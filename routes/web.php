@@ -22,6 +22,7 @@ Route::post('/saveorder', ['uses' => 'MainController@saveOrder', 'as'=> 'order.s
 Route::get('/payinfo/{id}',['uses' => 'MainController@payInfo',]);
 Route::get('/orderinfo/{id}',['uses' => 'MainController@orderInfo',]);
 Route::get('/orders', ['uses' => 'MainController@orders',]);
+Route::get('/order/{id}', ['uses' => 'MainController@getOrderById',]);
 Route::get('/create', 'MainController@createOrder');
 Route::get('/getrates', 'RatesController@getRates');
 
@@ -47,8 +48,8 @@ Route::get('/bridge', function() {
     $pusher = App::make('pusher');
 
     $pusher->trigger( 'test-channel',
-        'test-event',
-        array('text' => 'Preparing the Pusher Laracon.eu workshop!'));
+        'income',
+        array('id' => '2'));
 
     return view('welcome');
 });

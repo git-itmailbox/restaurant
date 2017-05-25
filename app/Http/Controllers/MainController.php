@@ -63,8 +63,13 @@ class MainController extends Controller
     public function orders()
     {
         $orders = Order::all();
-//        return response()->json(['transaction'=> $orders], 201);
         return view('orders.index', compact('orders'));
+    }
+
+    public function getOrderById($id)
+    {
+        $order = Order::find($id);
+        return view('orders.orderrow', compact('order'));
     }
 
     public function orderInfo($id)
