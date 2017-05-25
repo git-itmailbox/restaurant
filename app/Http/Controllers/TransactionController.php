@@ -18,6 +18,12 @@ class TransactionController extends Controller
      */
     public function income(Request $request)
     {
+        $endpoint = "http://localhost:8000/api/income";
+        $inputs = json_decode(file_get_contents('php://input'), true);
+        if (isset($inputs['type']) && $inputs['type'] == 'verify') {
+            echo hash('sha512', $endpoint);
+            return;
+        } elseif (isset($inputs['type']) && $inputs['type'] == 'btc_deposit') {
 
         $order = Order::where('address', $request->input('address'))->first();
         if (!$order) return "1"; //не нашли заказа по адресу бтс
@@ -42,6 +48,7 @@ class TransactionController extends Controller
         $pusher = App::make('pusher');
         $pusher->trigger('test-channel', 'income', ['id' => $order->id]);
 
+    }
         return response("1");
     }
 
@@ -67,17 +74,17 @@ class TransactionController extends Controller
     private function checkStatusOrder(Order $order)
     {
 
-        if($order->isPaid() && $this->isAllTransactionConfirmed($order->id))
-            $paymentStatus = Config::get('payment_statuses.CONFIRMED_OK') ;
+        if ($order->isPaid() && $this->isAllTransactionConfirmed($order->id))
+            $paymentStatus = Config::get('payment_statuses.CONFIRMED_OK');
 
-        if($order->isPaid() && !$this->isAllTransactionConfirmed($order->id))
-            $paymentStatus = Config::get('payment_statuses.UNCONFIRMED_OK') ;
+        if ($order->isPaid() && !$this->isAllTransactionConfirmed($order->id))
+            $paymentStatus = Config::get('payment_statuses.UNCONFIRMED_OK');
 
-        if(!$order->isPaid() && $this->isAllTransactionConfirmed($order->id))
-            $paymentStatus = Config::get('payment_statuses.CONFIRMED_WRONG') ;
+        if (!$order->isPaid() && $this->isAllTransactionConfirmed($order->id))
+            $paymentStatus = Config::get('payment_statuses.CONFIRMED_WRONG');
 
-        if(!$order->isPaid() && !$this->isAllTransactionConfirmed($order->id))
-            $paymentStatus = Config::get('payment_statuses.UNCONFIRMED_WRONG') ;
+        if (!$order->isPaid() && !$this->isAllTransactionConfirmed($order->id))
+            $paymentStatus = Config::get('payment_statuses.UNCONFIRMED_WRONG');
         return $paymentStatus;
     }
 
