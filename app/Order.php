@@ -27,11 +27,6 @@ class Order extends Model
     public function summ_uah_rest()
     {
         return ceil($this->summ_uah - $this->paid_uah) / 100;
-
-
-//        $btc_rest = $this->summ_btc - $this->paid_btc;
-//        $uah_rest = ceil($btc_rest * $rates->getBtcUahRate() / Config::get('fees.factor') * 100)/100;
-//        return $this->hasMany('App\Transaction');
     }
 
 
@@ -43,6 +38,10 @@ class Order extends Model
         return $btc_rest;
     }
 
+    public function isPaid()
+    {
+        return 0 >= $this->summ_uah_rest();
+    }
 
 }
 

@@ -6,51 +6,80 @@ use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\App;
-
+use \App\Order;
 
 class TransactionController extends Controller
 {
     //
 
     /**
-     *
-     *
-     *
-     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function income(Request $request)
     {
-        $tr = new Transaction();
+
+        $order = Order::where('address', $request->input('address'))->first();
+        if (!$order) return "1"; //не нашли заказа по адресу бтс
+        $tr = Transaction::findOrCreate($request->input('transaction'));
         $tr->transaction_num = $request->input('transaction');
         $tr->summ_btc = $request->input('amount');
         $tr->confirmed = $request->input('confirmed');
-
-        $order= \App\Order::where('address', $request->input('address'))->first();
-        if(!$order)
-            return response()->json(["status" => "error", "message"=>"address not found"]);
-
         $tr->order_id = $order->id;
         $tr->save();
-        if($tr->id > 0){
-            $order->paid_btc += $tr->summ_btc;
-            $order->paid_uah += $tr->summ_btc / Config::get('fees.factor') * $order->rate * 100;
-            $order->save();
-        }
-        if($order->paid_uah >= $order->summ_uah)
-        {
-            $data=[];
-            $data['id']='1';
-//            $data['paid_btc']=$order->paid_btc;
-//            $data['paid_uah']=$order->paid_uah;
-        }
-        $data['id']=$order->id;
+
+        //вызываем ф-ию суммирования всех приходов по $tr->order_id
+        $total_btc = $this->getTotalSummByOrder($tr->order_id);
+
+        $order->paid_btc = $total_btc;
+        $order->paid_uah = $total_btc / Config::get('fees.factor') * $order->rate * 100;
+        $order->save();
+
+        //check if all transaction confirmed & save new status to order
+        $order->payment_status_id = $this->checkStatusOrder($order);
+        $order->save();
+
         $pusher = App::make('pusher');
-        $pusher->trigger( 'test-channel','income', $data);
+        $pusher->trigger('test-channel', 'income', ['id' => $order->id]);
 
-        return response()->json(["1"], 201);
-
-
+        return response("1");
     }
+
+    private function getTotalSummByOrder($orderId)
+    {
+        $total = \DB::table('transactions')
+            ->where('order_id', $orderId)
+            ->sum('summ_btc');
+        return $total;
+    }
+
+    private function isAllTransactionConfirmed($orderId)
+    {
+        $count = \DB::table('transactions')
+            ->where('order_id', $orderId)
+            ->count();
+        $summ = \DB::table('transactions')
+            ->where('order_id', $orderId)
+            ->sum('confirmed');
+        return $count == $summ;
+    }
+
+    private function checkStatusOrder(Order $order)
+    {
+
+        if($order->isPaid() && $this->isAllTransactionConfirmed($order->id))
+            $paymentStatus = Config::get('payment_statuses.CONFIRMED_OK') ;
+
+        if($order->isPaid() && !$this->isAllTransactionConfirmed($order->id))
+            $paymentStatus = Config::get('payment_statuses.UNCONFIRMED_OK') ;
+
+        if(!$order->isPaid() && $this->isAllTransactionConfirmed($order->id))
+            $paymentStatus = Config::get('payment_statuses.CONFIRMED_WRONG') ;
+
+        if(!$order->isPaid() && !$this->isAllTransactionConfirmed($order->id))
+            $paymentStatus = Config::get('payment_statuses.UNCONFIRMED_WRONG') ;
+        return $paymentStatus;
+    }
+
+
 }

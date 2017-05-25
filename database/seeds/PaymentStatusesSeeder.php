@@ -17,12 +17,8 @@ class PaymentStatusesSeeder extends Seeder
 //        UNCONFIRMED_OK
 //        CONFIRMED_WRONG
 //        CONFIRMED_OK
-
-
-//
-//        DB::table('payment_statuses')->insert([
-//            'name' => 'NEW',
-//        ]);
+//        HISTORY_OK
+//        HISTORY_WRONG
 
         if(DB::table('payment_statuses')->get()->count() == 0){
 
@@ -51,6 +47,16 @@ class PaymentStatusesSeeder extends Seeder
                 ],
                 [
                     'name' => 'CONFIRMED_OK',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ],
+                [
+                    'name' => 'HISTORY_OK',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ],
+                [
+                    'name' => 'HISTORY_WRONG',
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]

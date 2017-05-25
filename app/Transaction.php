@@ -11,4 +11,10 @@ class Transaction extends Model
     {
         return $this->belongsTo('App\Order');
     }
+
+    public static function findOrCreate($transaction)
+    {
+        $obj = static::where('transaction_num',$transaction)->first();
+        return $obj ?: new static;
+    }
 }
