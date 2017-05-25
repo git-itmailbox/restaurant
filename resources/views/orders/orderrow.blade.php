@@ -21,5 +21,7 @@
     <a class="btn btn-warning" href="/payinfo/{{$order->id}}">
         payinfo
     </a>
-
+    <a class="btn btn-warning" href="/tohistory/{{$order->id}}">
+        Закрыть заказ
+    </a>
 </td>

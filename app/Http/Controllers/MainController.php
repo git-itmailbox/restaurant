@@ -72,6 +72,11 @@ class MainController extends Controller
         return view('orders.orderrow', compact('order'));
     }
 
+    public function toHistory($id)
+    {
+        return ;
+    }
+
     public function orderInfo($id)
     {
         $order = Order::find($id);
