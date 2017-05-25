@@ -62,7 +62,7 @@ class MainController extends Controller
 
     public function orders()
     {
-        $orders = Order::all();
+        $orders = Order::all()->whereNotIn('payment_status_id', [6,7]);
         return view('orders.index', compact('orders'));
     }
 
@@ -85,7 +85,8 @@ class MainController extends Controller
 
     public function history()
     {
-
+        $orders = Order::all()->whereIn('payment_status_id', [6,7] );
+        return view('orders.history', compact('orders'));
     }
 
     public function payInfo($id)

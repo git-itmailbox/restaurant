@@ -22,6 +22,7 @@ Route::post('/saveorder', ['uses' => 'MainController@saveOrder', 'as'=> 'order.s
 Route::get('/payinfo/{id}',['uses' => 'MainController@payInfo',]);
 Route::get('/orderinfo/{id}',['uses' => 'MainController@orderInfo',]);
 Route::get('/orders', ['uses' => 'MainController@orders',]);
+Route::get('/history', ['uses' => 'MainController@history',]);
 Route::get('/order/{id}', ['uses' => 'MainController@getOrderById',]);
 Route::get('/create', 'MainController@createOrder');
 Route::get('/getrates', 'RatesController@getRates');
