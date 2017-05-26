@@ -25,30 +25,33 @@ class TransactionController extends Controller
             return;
         } elseif (isset($inputs['type']) && $inputs['type'] == 'btc_deposit') {
 
-        $order = Order::where('address', $request->input('address'))->first();
-        if (!$order) return "1"; //не нашли заказа по адресу бтс
-        $tr = Transaction::findOrCreate($request->input('transaction'));
-        $tr->transaction_num = $request->input('transaction');
-        $tr->summ_btc = $request->input('amount');
-        $tr->confirmed = $request->input('confirmed');
-        $tr->order_id = $order->id;
-        $tr->save();
+            $order = Order::where('address', $request->input('address'))->first();
+            if (!$order) return "1"; //не нашли заказа по адресу бтс
+            $tr = Transaction::findOrCreate($request->input('transaction'));
+            $tr->transaction_num = $request->input('transaction');
+            $tr->summ_btc = $request->input('amount');
+            $tr->confirmed = $request->input('confirmed');
+            $tr->order_id = $order->id;
+            $tr->save();
 
-        //вызываем ф-ию суммирования всех приходов по $tr->order_id
-        $total_btc = $this->getTotalSummByOrder($tr->order_id);
+            //если заказ уже закрыт, ничего в нем менять не надо (?)
+            if($order->isClosed()) return "1";
 
-        $order->paid_btc = $total_btc;
-        $order->paid_uah = $total_btc / Config::get('fees.factor') * $order->rate * 100;
-        $order->save();
+                //вызываем ф-ию суммирования всех приходов по $tr->order_id
+            $total_btc = $this->getTotalSummByOrder($tr->order_id);
 
-        //check if all transaction confirmed & save new status to order
-        $order->payment_status_id = $this->checkStatusOrder($order);
-        $order->save();
+            $order->paid_btc = $total_btc;
+            $order->paid_uah = $total_btc / Config::get('fees.factor') * $order->rate * 100;
+            $order->save();
 
-        $pusher = App::make('pusher');
-        $pusher->trigger('test-channel', 'income', ['id' => $order->id]);
+            //check if all transaction confirmed & save new status to order
+            $order->payment_status_id = $this->checkStatusOrder($order);
+            $order->save();
 
-    }
+            $pusher = App::make('pusher');
+            $pusher->trigger('test-channel', 'income', ['id' => $order->id]);
+
+        }
         return response("1");
     }
 

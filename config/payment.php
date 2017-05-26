@@ -5,5 +5,5 @@ return [
 
     'protocol'=> 'bitcoin',
 
-    'label'=> 'FatBob',
+    'label'=> 'Fat Man',
 ];

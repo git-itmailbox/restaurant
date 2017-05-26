@@ -32,8 +32,6 @@ Route::get('/getstatusof/{id}', function ($id) {
 });
 
 
-
-
 //Route::resource('orders', "MainController");
 Route::get('/getorderby/{id}', function ($id) {
     return PaymentStatus::find($id)->orders;
@@ -44,30 +42,3 @@ Route::get('/broadcast', function() {
 
     return view('welcome');
 });
-
-Route::get('/bridge', function() {
-    $pusher = App::make('pusher');
-
-    $pusher->trigger( 'test-channel',
-        'income',
-        array('id' => '2'));
-
-    return view('welcome');
-});
-
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
-class TestEvent implements ShouldBroadcast
-{
-    public $text;
-
-    public function __construct($text)
-    {
-        $this->text = $text;
-    }
-
-    public function broadcastOn()
-    {
-        return ['test-channel'];
-    }
-}

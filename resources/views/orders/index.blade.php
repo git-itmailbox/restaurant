@@ -25,7 +25,6 @@
     </table>
 @stop
 
-
 @section('footer')
     <script>
         var pusher = new Pusher("{{env("PUSHER_KEY")}}", {cluster: 'eu'})
@@ -38,11 +37,38 @@
                 console.log(data);
             } else {
                 $.get("/order/" + data.id, function (datarow) {
-                    row.html(datarow);
+                    row.fadeOut("slow", function () {
+                        row.html(datarow).fadeIn();
+                    });
                     console.log("Load was performed.");
                 });
             }
         });
+
+        $(document).ready(function () {
+
+            $(document).on("click", ".tohistory", function () {
+                var row =  $(this).closest("tr");
+                var r = confirm("Вы уверены, что хотите закрыть заказ?");
+                if (r == true) {
+                    $.post('/api/tohistory', {id: $(this).data('id')},
+                        function (data) {
+                            if (data.result === 'ok')
+                            row.fadeOut();
+                            else
+                                alert("Не удалось закрыть заказ...");
+                            console.log(data.order);
+
+                        },
+                        "json"
+                );
+
+                    console.log($(this).data('id'));
+                }
+
+            });
+        });
+
 
     </script>
 @stop

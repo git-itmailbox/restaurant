@@ -43,5 +43,13 @@ class Order extends Model
         return 0 >= $this->summ_uah_rest();
     }
 
+    public function isClosed()
+    {
+            return in_array($this->payment_status_id,
+                    [
+                        Config::get('payment_statuses.HISTORY_OK'),
+                        Config::get('payment_statuses.HISTORY_WRONG')
+                    ]);
+    }
 }
 

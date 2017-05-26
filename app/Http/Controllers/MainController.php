@@ -66,15 +66,22 @@ class MainController extends Controller
         return view('orders.index', compact('orders'));
     }
 
+    //for ajax
     public function getOrderById($id)
     {
         $order = Order::find($id);
         return view('orders.orderrow', compact('order'));
     }
 
-    public function toHistory($id)
+    //for ajax updating status
+    public function toHistory(Request $request)
     {
-        return ;
+        $order =  Order::find($request->input('id'));
+        $order->payment_status_id = ($order->isPaid())?
+            Config::get('payment_statuses.HISTORY_OK') :
+            Config::get('payment_statuses.HISTORY_WRONG');
+        $order->save();
+        return response()->json(['result'=>"ok"], 200);
     }
 
     public function orderInfo($id)
@@ -120,6 +127,17 @@ class MainController extends Controller
     {
         $orders = Order::all();
         return response()->json(['transaction'=> $orders], 201);
+
+    }
+    public function orderApi($id)
+    {
+        $order = Order::find($id);
+        return response()->json([
+            'btc_rest'=> $order->summ_btc_rest(),
+            'uah_rest'=> $order->summ_uah_rest(),
+            'updated_at' => $order->updated_at
+
+        ], 201);
 
     }
 }

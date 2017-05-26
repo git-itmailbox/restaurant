@@ -18,8 +18,7 @@
     </a>
 </td>
 <td class="actions">
-    <div class="col-md-4 text-center">
-
+    <div class="col-md-4 col-sm-6 text-center">
         @if ($order->payment_status_id == 1)
             @include('orders.buttons.new', ['order' => $order])
         @elseif ($order->payment_status_id == 2 || $order->payment_status_id == 4)
@@ -28,12 +27,9 @@
             <span class="glyphicon glyphicon-ok"></span>
         @endif
     </div>
-    <div class="col-md-4  text-center">
-        <a class="btn btn-warning btn-sm" href="/tohistory/{{$order->id}}">
+    <div class="col-md-4 col-sm-6 text-center">
+        <a data-id="{{$order->id}}" class="btn btn-warning btn-sm tohistory" href="#">
             Закрыть заказ
         </a>
     </div>
-
-
-
 </td>

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
@@ -16,5 +17,10 @@ class Transaction extends Model
     {
         $obj = static::where('transaction_num',$transaction)->first();
         return $obj ?: new static;
+    }
+
+    public function getSatoshiSumm()
+    {
+        return $this->summ_btc / Config::get('fees.factor');
     }
 }

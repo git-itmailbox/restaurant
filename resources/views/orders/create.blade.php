@@ -1,4 +1,3 @@
-
 @extends('layout')
 
 @section('content')
@@ -14,8 +13,10 @@
         {{ Form::text('order_number', null, ['class'=>'form-control'])}}
 
         {{ Form::label('summ_uah', 'Сумма:') }}
-        {{ Form::text('summ_uah', null, ['class'=>'form-control'])}}
-
+        <div class="input-group">
+            {{ Form::text('summ_uah', null, ['class'=>'form-control'])}}
+            <span class="input-group-addon">грн</span>
+        </div>
         {{ Form::label('description', 'Описание:') }}
         {{ Form::textarea('description', null, ['class'=>'form-control'])}}
 

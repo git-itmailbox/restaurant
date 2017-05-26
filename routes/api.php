@@ -25,3 +25,9 @@ Route::post('/income', [
 Route::post('/orders', [
     'uses' => 'MainController@ordersApi'
 ]);
+Route::post('/tohistory', [
+    'uses' => 'MainController@toHistory'
+]);
+Route::get('/order/{id}', [
+    'uses' => 'MainController@orderApi'
+]);
