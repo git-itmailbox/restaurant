@@ -23,6 +23,8 @@
         @endforeach
         </tbody>
     </table>
+
+    {{$orders->links()}}
 @stop
 
 @section('footer')

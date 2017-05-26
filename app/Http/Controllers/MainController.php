@@ -31,7 +31,6 @@ class MainController extends Controller
         $order->address = $this->getAddress();
         $order->rate = $btcUahRate;
 
-
         $order->save();
         if($order->order_number == null){
             $order->order_number = "A".$order->id;
@@ -56,13 +55,11 @@ class MainController extends Controller
             return false;
         }
         return $res['data']['address'];
-
     }
-
 
     public function orders()
     {
-        $orders = Order::all()->whereNotIn('payment_status_id', [6,7]);
+        $orders = Order::whereNotIn('payment_status_id', [6,7])->paginate(5);
         return view('orders.index', compact('orders'));
     }
 
@@ -101,10 +98,7 @@ class MainController extends Controller
         $order = Order::find($id);
         $order->summ_btc = $order->summ_btc / Config::get('fees.factor');
         $query = $this->getBarCodeQuery($order);
-
-
         return view('orders.payinfo',compact('order', 'query'));
-
     }
 
     private function getBarCodeQuery(Order $order)
@@ -136,7 +130,6 @@ class MainController extends Controller
             'btc_rest'=> $order->summ_btc_rest(),
             'uah_rest'=> $order->summ_uah_rest(),
             'updated_at' => $order->updated_at
-
         ], 201);
 
     }
